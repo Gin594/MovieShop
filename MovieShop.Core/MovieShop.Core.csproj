@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Exceptions\" />
     <Folder Include="Models\Response\" />
     <Folder Include="Models\Request\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>
