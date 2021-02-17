@@ -26,6 +26,10 @@ namespace MovieShop.Infrastructure.Data
             modelBuilder.Entity<Role>(r => {
                 r.ToTable("Role");
                 r.HasKey(r => r.Id);
+            });      
+            modelBuilder.Entity<Cast>(c => {
+                c.ToTable("Cast");
+                c.HasKey(c => c.Id);
             });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
@@ -43,6 +47,12 @@ namespace MovieShop.Infrastructure.Data
                 .UsingEntity<Dictionary<string, object>>("UserRole",
                     r => r.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
                     u => u.HasOne<User>().WithMany().HasForeignKey("UserId")
+                );            
+            
+            modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
+                .UsingEntity<Dictionary<string, object>>("MovieCast",
+                    m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
+                    c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId")
                 );
                 
         }
@@ -75,6 +85,7 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<Trailer> Trailers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Cast> Casts { get; set; }
 
 
     }

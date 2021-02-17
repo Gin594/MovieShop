@@ -30,6 +30,6 @@ namespace MovieShop.Core.Entities
         // Navigation Property
         public ICollection<Trailer> Trailers { get; set; }
         public ICollection<Genre> Genres { get; set; }
-
+        public ICollection<Cast> Casts { get; set; }
     }
 }
