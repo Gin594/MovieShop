@@ -13,7 +13,7 @@ namespace MovieShop.MVC.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/movie/create")]
         public IActionResult Create(object movie)
         {
             // var movie = insert movie detail into database
@@ -21,7 +21,7 @@ namespace MovieShop.MVC.Controllers
             return View("Create");
         }
 
-        [HttpPut]
+        [HttpPut("/movie/edit")]
         public IActionResult Edit(object movie)
         {
             // var movie = insert movie detail into database

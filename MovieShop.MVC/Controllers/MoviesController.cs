@@ -3,11 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieShop.Infrastructure.Services;
+using MovieShop.Core.ServiceInterfaces;
 
 namespace MovieShop.MVC.Controllers
 {
+   
     public class MoviesController : Controller
     {
+        private readonly IMovieService _movieService;
+        public MoviesController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -23,7 +32,8 @@ namespace MovieShop.MVC.Controllers
         [HttpGet]
         public IActionResult TopRevenueMovies()
         {
-            return View("TopRevenueMovies");
+            var movies = _movieService.GetHighestGrossingMovies();
+            return View("TopRevenueMovies", movies);
         }
 
         [HttpGet]
@@ -47,5 +57,7 @@ namespace MovieShop.MVC.Controllers
             // return View("Reviews", review);
             return View("Reviews");
         }
+
+        
     }
 }
