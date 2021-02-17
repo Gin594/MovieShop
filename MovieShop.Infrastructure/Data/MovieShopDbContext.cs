@@ -39,6 +39,10 @@ namespace MovieShop.Infrastructure.Data
                 f.ToTable("Favorite");
                 f.HasKey(f => f.Id);
             });
+            modelBuilder.Entity<Review>(r => {
+                r.ToTable("Review");
+                r.HasKey(r => new {r.MovieId, r.UserId});
+            });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
             //    t.HasKey(t => t.Id);
@@ -96,5 +100,6 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<Cast> Casts { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }
