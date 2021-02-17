@@ -31,6 +31,10 @@ namespace MovieShop.Infrastructure.Data
                 c.ToTable("Cast");
                 c.HasKey(c => c.Id);
             });
+            modelBuilder.Entity<Purchase>(p => {
+                p.ToTable("Purchase");
+                p.HasKey(p => p.Id);
+            });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
             //    t.HasKey(t => t.Id);
@@ -86,6 +90,7 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Cast> Casts { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
 
     }
