@@ -19,6 +19,14 @@ namespace MovieShop.Infrastructure.Data
             // Action<EntityTypeBuilder<TEntity>> buildAction
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
+            modelBuilder.Entity<User>(u => {
+                u.ToTable("User");
+                u.HasKey(u => u.Id);
+            });
+            modelBuilder.Entity<Role>(r => {
+                r.ToTable("Role");
+                r.HasKey(r => r.Id);
+            });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
             //    t.HasKey(t => t.Id);
@@ -30,6 +38,13 @@ namespace MovieShop.Infrastructure.Data
                 .UsingEntity<Dictionary<string, object>>("MovieGenre",
                     m => m.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
                     g => g.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
+
+            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users)
+                .UsingEntity<Dictionary<string, object>>("UserRole",
+                    r => r.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
+                    u => u.HasOne<User>().WithMany().HasForeignKey("UserId")
+                );
+                
         }
         private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)
         {
@@ -56,10 +71,11 @@ namespace MovieShop.Infrastructure.Data
         }
         // Many DbSets, they are reprensented as properties
         public DbSet<Genre> Genres { get; set; }
-
         public DbSet<Movie> Movies { get; set; }
-
         public DbSet<Trailer> Trailers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
 
     }
 }
