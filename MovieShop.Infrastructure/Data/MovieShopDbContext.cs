@@ -19,13 +19,6 @@ namespace MovieShop.Infrastructure.Data
             // Action<EntityTypeBuilder<TEntity>> buildAction
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
-            modelBuilder.Entity<UserRole>(u => { u.ToTable("UserRole"); });
-            modelBuilder.Entity<Cast>(c => { c.ToTable("Cast"); });
-            modelBuilder.Entity<MovieCast>(m => { m.ToTable("MovieCast"); });
-            modelBuilder.Entity<Favorite>(f => { f.ToTable("Favorite"); });
-            modelBuilder.Entity<Purchase>(p => { p.ToTable("Purchase"); });
-            modelBuilder.Entity<Review>(r => { r.ToTable("Review"); });
-
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
             //    t.HasKey(t => t.Id);
@@ -67,13 +60,6 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<Trailer> Trailers { get; set; }
-
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Cast> Casts { get; set; }
-        public DbSet<MovieCast> MovieCasts { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
-        public DbSet<Purchase> Purchases { get; set; }
-        public DbSet<Review> Reviews { get; set; }
 
     }
 }

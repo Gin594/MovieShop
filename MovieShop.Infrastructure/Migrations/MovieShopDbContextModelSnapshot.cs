@@ -34,30 +34,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.ToTable("MovieGenre");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.Cast", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cast");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Favorite");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -149,42 +125,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.MovieCast", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MovieCast");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Purchase");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Review");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Trailer", b =>
                 {
                     b.Property<int>("Id")
@@ -208,21 +148,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("Trailer");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.UserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("MovieGenre", b =>

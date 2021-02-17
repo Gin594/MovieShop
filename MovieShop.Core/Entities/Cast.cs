@@ -4,9 +4,7 @@ using System.Text;
 
 namespace MovieShop.Core.Entities
 {
-    public class Cast
+    class Cast
     {
-        public int Id { get; set; }
-
     }
 }
