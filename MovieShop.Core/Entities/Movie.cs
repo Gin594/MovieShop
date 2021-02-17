@@ -32,5 +32,6 @@ namespace MovieShop.Core.Entities
         public ICollection<Genre> Genres { get; set; }
         public ICollection<Cast> Casts { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
     }
 }
