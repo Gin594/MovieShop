@@ -22,18 +22,28 @@ namespace MovieShop.Infrastructure.Data
             modelBuilder.Entity<User>(u => {
                 u.ToTable("User");
                 u.HasKey(u => u.Id);
+                u.Property(u => u.FirstName).HasMaxLength(128);
+                u.Property(u => u.LastName).HasMaxLength(128);
+                u.Property(u => u.Email).HasMaxLength(256);
+                u.Property(u => u.HashedPassword).HasMaxLength(1024);
+                u.Property(u => u.Salt).HasMaxLength(1024);
             });
             modelBuilder.Entity<Role>(r => {
                 r.ToTable("Role");
                 r.HasKey(r => r.Id);
+                r.Property(r => r.Name).HasMaxLength(20);
             });      
             modelBuilder.Entity<Cast>(c => {
                 c.ToTable("Cast");
                 c.HasKey(c => c.Id);
+                c.Property(c => c.Name).HasMaxLength(128);
+                c.Property(c => c.ProfilePath).HasMaxLength(2084);
+
             });
             modelBuilder.Entity<Purchase>(p => {
                 p.ToTable("Purchase");
                 p.HasKey(p => p.Id);
+                p.Property(p => p.TotalPrice).HasColumnType("decimal(18, 2)");
             });
             modelBuilder.Entity<Favorite>(f => {
                 f.ToTable("Favorite");
@@ -42,6 +52,7 @@ namespace MovieShop.Infrastructure.Data
             modelBuilder.Entity<Review>(r => {
                 r.ToTable("Review");
                 r.HasKey(r => new {r.MovieId, r.UserId});
+                r.Property(r => r.Rating).HasColumnType("decimal(3, 2)");
             });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
@@ -64,7 +75,8 @@ namespace MovieShop.Infrastructure.Data
             modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
                 .UsingEntity<Dictionary<string, object>>("MovieCast",
                     m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
-                    c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId")
+                    c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+                    c => c.HasOne<Cast>().WithMany().HasForeignKey("Character")
                 );
                 
         }
