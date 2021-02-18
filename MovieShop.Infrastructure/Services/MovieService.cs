@@ -1,4 +1,5 @@
 ﻿using MovieShop.Core.Entities;
+using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using System;
@@ -17,9 +18,30 @@ namespace MovieShop.Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
-        public IEnumerable<Movie> GetHighestGrossingMovies()
+        public MovieDetailsResponseModel GetMovieById(int id)
         {
-            throw new NotImplementedException();
+            var movieDetails = new MovieDetailsResponseModel();
+            var movie = _movieRepository.GetByIdAsync(id);
+            // map movie entity to MovieDetailsResponseModel
+            return movieDetails;
+        }
+
+        public IEnumerable<MovieCardResponseModel> GetTop25GrossingMovies()
+        {
+            var movies = _movieRepository.GetTopRevenueMovies();
+            var movieResponseModel = new List<MovieCardResponseModel>();
+            foreach (var movie in movies)
+            {
+                var movieCard = new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    PosterUrl = movie.PosterUrl,
+                    Revenue = movie.Revenue,
+                    Title = movie.Title
+                };
+                movieResponseModel.Add(movieCard);
+            }
+            return movieResponseModel;
         }
     }
 

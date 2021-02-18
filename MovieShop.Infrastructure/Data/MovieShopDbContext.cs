@@ -14,6 +14,18 @@ namespace MovieShop.Infrastructure.Data
 
         }
 
+        // Many DbSets, they are reprensented as properties
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Trailer> Trailers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Cast> Casts { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<MovieCast> MovieCasts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Action<EntityTypeBuilder<TEntity>> buildAction
@@ -108,16 +120,6 @@ namespace MovieShop.Infrastructure.Data
             builder.Property(m => m.Price).HasColumnType("decimal(5, 2)").HasDefaultValue(9.9m);
             builder.Property(m => m.CreatedDate).HasDefaultValueSql("getdate()");
         }
-        // Many DbSets, they are reprensented as properties
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Trailer> Trailers { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Cast> Casts { get; set; }
-        public DbSet<Purchase> Purchases { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<MovieCast> MovieCasts { get; set; }
+
     }
 }

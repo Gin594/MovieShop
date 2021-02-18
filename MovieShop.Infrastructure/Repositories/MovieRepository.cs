@@ -3,6 +3,8 @@ using MovieShop.Core.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using MovieShop.Infrastructure.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieShop.Infrastructure.Repositories
 {
@@ -20,7 +22,13 @@ namespace MovieShop.Infrastructure.Repositories
 
         public IEnumerable<Movie> GetTopRevenueMovies()
         {
-            throw new NotImplementedException();
+            return _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(20);
+        }
+
+        public override Movie GetByIdAsync(int id)
+        {
+            return _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.Genres)
+                .FirstOrDefault(m => m.Id == id);
         }
     }
 }

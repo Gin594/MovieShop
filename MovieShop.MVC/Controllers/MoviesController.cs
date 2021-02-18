@@ -24,16 +24,17 @@ namespace MovieShop.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View("Testing");
+            var movieDetail = _movieService.GetMovieById(id);
+            return View();
         }
 
         [HttpGet]
         public IActionResult TopRevenueMovies()
         {
-            var movies = _movieService.GetHighestGrossingMovies();
-            return View("TopRevenueMovies", movies);
+            //var movies = _movieService.GetHighestGrossingMovies();
+            return View("TopRevenueMovies");
         }
 
         [HttpGet]

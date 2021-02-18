@@ -16,21 +16,21 @@ namespace MovieShop.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public T GetByIdAsync(int id)
+        public virtual T GetByIdAsync(int id)
         {
             var entity = _dbContext.Set<T>().Find(id);
             return entity;
         }
-        public IEnumerable<T> ListAllAsync()
+        public virtual IEnumerable<T> ListAllAsync()
         {
             return _dbContext.Set<T>().ToList();
         }
-        public IEnumerable<T> ListAsync(Expression<Func<T, bool>> filter)
+        public virtual IEnumerable<T> ListAsync(Expression<Func<T, bool>> filter)
         {
             var filteredList = _dbContext.Set<T>().Where(filter).ToList();
             return filteredList;
         }
-        public int GetCountAsync(Expression<Func<T, bool>> filter = null)
+        public virtual int GetCountAsync(Expression<Func<T, bool>> filter = null)
         {
             if (filter != null)
             {
@@ -38,7 +38,7 @@ namespace MovieShop.Infrastructure.Repositories
             }
             return _dbContext.Set<T>().Count();
         }
-        public bool GetExistsAsync(Expression<Func<T, bool>> filter = null)
+        public virtual bool GetExistsAsync(Expression<Func<T, bool>> filter = null)
         {
             if (filter != null)
             {
@@ -46,19 +46,19 @@ namespace MovieShop.Infrastructure.Repositories
             }
             return false;
         }
-        public T AddAsync(T entity)
+        public virtual T AddAsync(T entity)
         {
             _dbContext.Set<T>().Add(entity);
             _dbContext.SaveChanges();
             return entity;
         }
-        public T UpdateAsync(T entity)
+        public virtual T UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return entity;
         }
-        public T DeleteAsync(T entity)
+        public virtual T DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
             _dbContext.SaveChanges();
