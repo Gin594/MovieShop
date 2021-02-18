@@ -54,6 +54,11 @@ namespace MovieShop.Infrastructure.Data
                 r.HasKey(r => new {r.MovieId, r.UserId});
                 r.Property(r => r.Rating).HasColumnType("decimal(3, 2)");
             });
+            modelBuilder.Entity<MovieCast>(mc => {
+                mc.ToTable("MovieCast");
+                mc.HasKey(mc => new { mc.MovieId, mc.CastId, mc.Character });
+                mc.Property(mc => mc.Character).HasMaxLength(450);
+            });
             //modelBuilder.Entity<Trailer>(t => {
             //    t.ToTable("Trailer");
             //    t.HasKey(t => t.Id);
@@ -72,12 +77,12 @@ namespace MovieShop.Infrastructure.Data
                     u => u.HasOne<User>().WithMany().HasForeignKey("UserId")
                 );            
             
-            modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
-                .UsingEntity<Dictionary<string, object>>("MovieCast",
-                    m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
-                    c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
-                    c => c.HasOne<Cast>().WithMany().HasForeignKey("Character")
-                );
+            //modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
+            //    .UsingEntity<Dictionary<string, object>>("MovieCast",
+            //        m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
+            //        c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+            //        c => c.HasOne<Cast>().WithMany().HasForeignKey("Character")
+            //    );
                 
         }
         private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)
@@ -113,5 +118,6 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<MovieCast> MovieCasts { get; set; }
     }
 }
