@@ -34,7 +34,7 @@ namespace MovieShop.Infrastructure.Services
             {
                 list.Add(new GenreModel { Id = item.Id, Name = item.Name });
             }
-            movieDetails.Genres = new List<GenreModel>(list);
+            movieDetails.Genres = list;
             movieDetails.Overview = movie.Overview;
             movieDetails.Price = movie.Price;
             return movieDetails;
