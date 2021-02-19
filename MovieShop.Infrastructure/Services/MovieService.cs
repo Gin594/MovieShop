@@ -21,8 +21,22 @@ namespace MovieShop.Infrastructure.Services
         public MovieDetailsResponseModel GetMovieById(int id)
         {
             var movieDetails = new MovieDetailsResponseModel();
+            var genreModel = new GenreModel();
             var movie = _movieRepository.GetByIdAsync(id);
             // map movie entity to MovieDetailsResponseModel
+            movieDetails.Id = movie.Id;
+            movieDetails.Title = movie.Title;
+            movieDetails.PosterUrl = movie.PosterUrl;
+            movieDetails.Tagline = movie.Tagline;
+            var genres = movie.Genres;
+            List<GenreModel> list = new List<GenreModel>();
+            foreach (var item in genres)
+            {
+                list.Add(new GenreModel { Id = item.Id, Name = item.Name });
+            }
+            movieDetails.Genres = new List<GenreModel>(list);
+            movieDetails.Overview = movie.Overview;
+            movieDetails.Price = movie.Price;
             return movieDetails;
         }
 
