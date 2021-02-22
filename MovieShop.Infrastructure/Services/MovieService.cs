@@ -36,6 +36,7 @@ namespace MovieShop.Infrastructure.Services
             movieDetails.Revenue = movie.Revenue;
             movieDetails.Budget = movie.Budget;
             movieDetails.ImdbUrl = movie.ImdbUrl;
+
             movieDetails.Genres = new List<GenreModel>();
             movieDetails.Casts = new List<CastResponseModel>();
             movieDetails.Reviews = new List<ReviewResponseModel>();

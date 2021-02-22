@@ -33,3 +33,34 @@
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+@media screen and (max-width: 768px) {
+    .card-img-top {
+        width: 200px;
+        height: 300px;
+    }
+
+    .my-col {
+        text-align:center;
+    }
+
+    .bg-image {
+        height: 60%;
+        width: 100%;
+        background-size: cover;
+        background-color: #07131b;
+        background-blend-mode: overlay;
+    }
+
+}
+
+@media screen and (max-width: 1740px){
+    .bg-image {
+        height: 60%;
+        width: 100%;
+        background-size: cover;
+        background-color: #07131b;
+        background-blend-mode: overlay;
+    }
+
+}

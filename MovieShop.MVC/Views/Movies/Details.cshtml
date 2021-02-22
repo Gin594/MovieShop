@@ -1,28 +1,24 @@
 ﻿@using System.Globalization
 @using MovieShop.Core.ServiceInterfaces
 @model MovieShop.Core.Models.Response.MovieDetailsResponseModel
+
 <div class="bg-image" style="background-image: url(@Model.BackdropUrl)">
 
-    <div class="row">
-        <div class="col-md-3 offset-2">
-
-            <!-- Movie Card row -->
+    <div class="row justify-content-between justify-content-xl-around">
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3 offset-xl-2 my-col">
             <div>
                 <img src="@Model.PosterUrl" class="card-img-top" />
             </div>
-
         </div>
-        <div class="col-md-4">
-            <div class="row mt-2">
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3">
+            <div class="row my-row">
                 <div class="col-12">
                     <h1 class="text-white">
                         @Model.Title
                     </h1>
                     <small class="text-muted"> @Model.Tagline </small>
                 </div>
-
             </div>
-
             <div class="row">
                 <div class="col-4 text-secondary font-weight-bold mt-2">
                     @Model.RunTime m | @Model.ReleaseDate.Value.Date.Year
@@ -39,7 +35,7 @@
             </div>
 
             <div class="row">
-                <div class="col-4 mt-3">
+                <div class="col-12 col-md-3 col-xl-3 mt-3">
                     <h4>
                         <span class="badge badge-warning">
                             @Model.Rating?.ToString("0.00")
@@ -54,8 +50,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-2 mt-4 offset-1">
+        <div class="col-12 col-md-2 col-lg-2 col-xl-2 mt-4">
             <ul class="list-group">
                 <li class="list-group-item">
 
@@ -86,10 +81,8 @@
                 </li>
             </ul>
         </div>
-
     </div>
 </div>
-
 
 <div class="row mt-4">
     <div class="col-4 moviefacts">
@@ -161,6 +154,79 @@
 
     </div>
 </div>
+
+
+
+@*<div class="row mt-4">
+    <div class="col-4 moviefacts">
+        <h5>MOVIE FACTS</h5>
+        <hr>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <i class="far fa-calendar-alt mr-2"></i>Release Date
+                <span class="badge badge-pill badge-dark">@Model.ReleaseDate.Value.ToShortDateString()</span>
+            </li>
+
+            <li class="list-group-item">
+                <i class="fas fa-hourglass-half mr-2"></i>Run Time
+                <span class="badge badge-pill badge-dark">@Model.RunTime.Value m</span>
+            </li>
+            <li class="list-group-item">
+                <i class="far fa-money-bill-alt"></i> Box Office
+                <span class="badge badge-pill badge-pill badge-dark">
+                    @NumberFormatInfo.CurrentInfo.CurrencySymbol
+                    @Model.Revenue?.ToString("C0")
+                </span>
+            </li>
+
+            <li class="list-group-item">
+                <i class="fas fa-dollar-sign mr-2"></i> Budget
+                <span class="badge badge-pill badge-dark">
+                    @NumberFormatInfo.CurrentInfo.CurrencySymbol
+                    @Model.Budget?.ToString("C0")
+                </span>
+            </li>
+
+            <li class="list-group-item">
+                <i class="fab fa-imdb"></i>
+
+                <a href="@Model.ImdbUrl"
+                   class="text-dark ml-3"
+                   target="_blank">
+                    <i class="fas fa-share-square mr-2"></i>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-4 offset-1">
+        <h5>CAST</h5>
+
+        <table class="table">
+
+            <tbody>
+
+
+                @foreach (var cast in Model?.Casts)
+                {
+                    <tr>
+                        <td>
+                            <img src="@cast.ProfilePath"
+                                 class="cast-small-img rounded-circle"
+                                 alt="@cast.Name" />
+                        </td>
+                        <td> @cast.Name </td>
+                        <td> @cast.Character</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>*@
 
 
 <!-- Modal -->
