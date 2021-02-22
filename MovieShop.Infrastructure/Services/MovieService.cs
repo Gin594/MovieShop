@@ -5,6 +5,7 @@ using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MovieShop.Infrastructure.Services
 {
@@ -18,31 +19,74 @@ namespace MovieShop.Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
-        public MovieDetailsResponseModel GetMovieById(int id)
+        public async Task<MovieDetailsResponseModel> GetMovieById(int id)
         {
             var movieDetails = new MovieDetailsResponseModel();
-            var genreModel = new GenreModel();
-            var movie = _movieRepository.GetByIdAsync(id);
+            var movie =  await _movieRepository.GetByIdAsync(id);
             // map movie entity to MovieDetailsResponseModel
             movieDetails.Id = movie.Id;
             movieDetails.Title = movie.Title;
             movieDetails.PosterUrl = movie.PosterUrl;
             movieDetails.Tagline = movie.Tagline;
-            var genres = movie.Genres;
-            List<GenreModel> list = new List<GenreModel>();
-            foreach (var item in genres)
-            {
-                list.Add(new GenreModel { Id = item.Id, Name = item.Name });
-            }
-            movieDetails.Genres = list;
             movieDetails.Overview = movie.Overview;
             movieDetails.Price = movie.Price;
+            movieDetails.RunTime = movie.RunTime;
+            movieDetails.BackdropUrl = movie.BackdropUrl;
+            movieDetails.ReleaseDate = movie.ReleaseDate;
+            movieDetails.Revenue = movie.Revenue;
+            movieDetails.Budget = movie.Budget;
+            movieDetails.ImdbUrl = movie.ImdbUrl;
+            movieDetails.Genres = new List<GenreModel>();
+            movieDetails.Casts = new List<CastResponseModel>();
+            movieDetails.Reviews = new List<ReviewResponseModel>();
+            foreach (var item in movie.Genres)
+            {
+                movieDetails.Genres.Add(new GenreModel { Id = item.Id, Name = item.Name });
+            }
+
+            foreach (var cast in movie.MovieCasts)
+            {
+                movieDetails.Casts.Add(new CastResponseModel
+                {
+                    Id = cast.CastId,
+                    Character = cast.Character,
+                    Name = cast.Cast.Name,
+                    ProfilePath = cast.Cast.ProfilePath
+                });
+            }
+            decimal? rating = 0.0m;
+            if (movie.Reviews != null)
+            {
+                foreach (var review in movie.Reviews)
+                {
+                    movieDetails.Reviews.Add(new ReviewResponseModel
+                    {
+                        MovieId = review.MovieId,
+                        UserId = review.UserId,
+                        Rating = review.Rating,
+                        ReviewText = review.ReviewText,
+                        CreatedDate = review.CreatedDate
+                    });
+
+                }
+                foreach (var rate in movieDetails.Reviews)
+                {
+                    rating += rate.Rating;
+                }
+                rating = rating / movieDetails.Reviews.Count;
+
+            }
+           
+            movieDetails.Rating = rating;
             return movieDetails;
         }
+           
+           
+           
 
-        public IEnumerable<MovieCardResponseModel> GetTop25GrossingMovies()
+        public async Task<IEnumerable<MovieCardResponseModel>> GetTop25GrossingMovies()
         {
-            var movies = _movieRepository.GetTopRevenueMovies();
+            var movies = await _movieRepository.GetTopRevenueMovies();
             var movieResponseModel = new List<MovieCardResponseModel>();
             foreach (var movie in movies)
             {

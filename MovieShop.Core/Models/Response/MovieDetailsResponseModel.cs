@@ -20,8 +20,11 @@ namespace MovieShop.Core.Models.Response
         public DateTime? ReleaseDate { get; set; }
         public int? RunTime { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Rating { get; set; }
         public List<GenreModel> Genres { get; set; }
         public List<CastResponseModel> Casts { get; set; }
+        public List<ReviewResponseModel> Reviews { get; set; }
+
     }
 
     public class GenreModel
@@ -38,5 +41,14 @@ namespace MovieShop.Core.Models.Response
         public string ProfilePath { get; set; }
         public string Character { get; set; }
 
+    }
+
+    public class ReviewResponseModel
+    {
+        public int MovieId { get; set; }
+        public int UserId { get; set; }
+        public decimal? Rating { get; set; }
+        public string ReviewText { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MovieShop.Core.RepositoryInterfaces
 {
@@ -10,8 +11,8 @@ namespace MovieShop.Core.RepositoryInterfaces
         //IEnumerable<Movie> GetTopRevenueMovie();
         //IEnumerable<Movie> GetHighestRatdMovies();
 
-        IEnumerable<Movie> GetTopRatedMovies();
-        IEnumerable<Movie> GetTopRevenueMovies();
+        Task<IEnumerable<Movie>> GetTopRatedMovies();
+        Task<IEnumerable<Movie>> GetTopRevenueMovies();
 
     }
 }
