@@ -51,6 +51,8 @@ namespace MovieShop.Infrastructure.Repositories
         {
             _dbContext.Set<T>().Add(entity);
             await _dbContext.SaveChangesAsync();
+            // it will automatically update the entity, like set to null, add id identity if 
+            // successful added into database
             return entity;
         }
         public virtual async Task<T> UpdateAsync(T entity)

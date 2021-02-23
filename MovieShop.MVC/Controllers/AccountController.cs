@@ -1,40 +1,102 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using MovieShop.Core.Models.Request;
+using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieShop.MVC.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserService _userService;
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginRequestModel loginRequest, string returnUrl = null)
+        {
+            // if returnUrl === null then we go to home page
+            // otherwise go to the returnUrl
+            returnUrl ??= Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // send this loginRequest model to the UserService that will validate
+            // the user name and password
+            var user = await _userService.ValidateUser(loginRequest);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Please check username and password");
+                return View();
+            }
+
+            // if un/pw is success
+
+            // Cookie base authentication
+
+            // Create a cookie with some information such that id, firstname, lastname, roles etc. ClAIMS
+            // that information should not be in plain text, it should be encrypted
+
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.Value.ToShortDateString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
+            return LocalRedirect(returnUrl);
+
+        }
+
         [HttpGet]
-        public IActionResult Details(int id)
+       public async Task<IActionResult> Register()
         {
-            // var account = get data by account id = 2;
-            // return View("Details", account);
-            return View("Details");
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Create(object account)
+        public async Task<IActionResult> Register(UserRegisterRequestModel requestModel)
         {
-            // var result = insert data into database
-            // return View("Create", result);
-            return View("Create");
-        }
+            // Model Binding
+            // Form, it will look for input elements names and if those names match with our Action method
+            // model properties, then it will automatically map that data
 
-        [HttpPost]
-        public IActionResult Login(object user)
-        {
-            // get user email, name, password and verify them from database
-            // if match then generate authentication
-            return View("Login");
+            // a control with name=email "abc@abc.com" (case insensitive)
+            // UserRegisterRequestModel => Email
+            // not only for object, also binding if match the parameters
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            // only when every validation passes make sure you save to database
+            var createdUser = await _userService.RegisterUser(requestModel);
+            if (createdUser)
+            {
+                return RedirectToAction("Login");
+
+            }
+            return View(); 
         }
     }
 }
