@@ -31,7 +31,7 @@ namespace MovieShop.MVC.Controllers
             // if returnUrl === null then we go to home page
             // otherwise go to the returnUrl
             returnUrl ??= Url.Content("~/");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View();
             }
@@ -73,6 +73,12 @@ namespace MovieShop.MVC.Controllers
        public async Task<IActionResult> Register()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Logout ()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login");
         }
 
         [HttpPost]

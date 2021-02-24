@@ -43,9 +43,12 @@ namespace MovieShop.MVC
 
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<IAsyncRepository<Genre>, EfRepository<Genre>>();
+            services.AddTransient<IAsyncRepository<Review>, EfRepository<Review>>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICryptoService, CryptoService>();
+            services.AddTransient<ICurrentLogedInUser, CurrentLogedInUser>();
+
 
 
             services.AddDbContext<MovieShopDbContext>(option =>
@@ -59,7 +62,7 @@ namespace MovieShop.MVC
                 {
                     option.Cookie.Name = "MovieShopAuthCookie";
                     option.ExpireTimeSpan = TimeSpan.FromHours(2);
-                    option.LoginPath = "Account/login";
+                    option.LoginPath = "/Account/login";
                 }
                 );
         }
@@ -82,7 +85,7 @@ namespace MovieShop.MVC
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

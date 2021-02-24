@@ -57,11 +57,10 @@
 
                 </li>
                 <li class="list-group-item">
-                    <button type="button"
-                            class="btn btn-outline-light btn-lg btn-block btn-sm">
+                    <a class="btn btn-outline-light btn-lg btn-block btn-sm" asp-route-id="@Model.Id" asp-controller="User" asp-action="Review">
                         <i class="far fa-edit mr-1"></i>
                         REVIEW
-                    </button>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <button type="button"
@@ -71,9 +70,9 @@
                 </li>
 
                 <li class="list-group-item">
-                    <button type="button" class="btn btn-light btn-lg btn-block btn-sm" data-toggle="modal" data-target="#buyMovieModal">
+                    <a class="btn btn-light btn-lg btn-block btn-sm" asp-route-id="@Model.Id" asp-controller="User" asp-action="BuyMovie">
                         BUY @Model.Price
-                    </button>
+                    </a>
 
                     <button type="button" class="btn btn-light btn-lg btn-block btn-sm">
                         WATCH MOVIE
@@ -154,3 +153,4 @@
 
     </div>
 </div>
+

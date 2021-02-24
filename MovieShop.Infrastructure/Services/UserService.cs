@@ -15,11 +15,31 @@ namespace MovieShop.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        private readonly ICurrentLogedInUser _currentLogedInUser;
+        private readonly IAsyncRepository<Review> _reviewRepository;
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, ICurrentLogedInUser currentLogedInUser, IAsyncRepository<Review> reviewRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
+            _currentLogedInUser = currentLogedInUser;
+            _reviewRepository = reviewRepository;
+
         }
+
+        public async Task AddMovieReview(ReviewRequestModel reviewRequestModel)
+        {
+            if (_currentLogedInUser.UserId != reviewRequestModel.UserId)
+                throw new ConfilictException("You are not Authorized to Review");
+            var review = new Review
+            {
+                MovieId = reviewRequestModel.MovieId,
+                UserId = reviewRequestModel.UserId,
+                Rating = reviewRequestModel.Rating,
+                ReviewText = reviewRequestModel.ReviewText,
+            };
+            await _reviewRepository.AddAsync(review);
+        }
+
         public async Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
         {
             // we need to check whether that email exists or not

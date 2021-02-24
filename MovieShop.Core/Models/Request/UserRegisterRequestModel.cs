@@ -12,10 +12,9 @@ namespace MovieShop.Core.Models.Request
         [EmailAddress(ErrorMessage ="Email should be in valid format (abc123@example.com)")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage ="Password cannot be empty")]
-        [StringLength(100, ErrorMessage ="The {0} must be at least {2} characters long", MinimumLength =8)]
-        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}$", 
-            ErrorMessage = "password must have at least one capital, small, number and special character, 8 length long")]
+        [Required(ErrorMessage = "Password cannot be empty!")]
+        [StringLength(100, ErrorMessage = "The {0} muct be at least {2} chanracters long", MinimumLength = 8)]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}$")]
         // 1 capital, small, number and special character, 8 length, max 100
         public string Password { get; set; }
 
