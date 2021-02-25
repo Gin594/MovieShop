@@ -46,3 +46,4 @@ namespace MovieShop.Core.Helper
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
     }
+    }
