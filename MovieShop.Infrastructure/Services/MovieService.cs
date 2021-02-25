@@ -1,9 +1,12 @@
 ﻿using MovieShop.Core.Entities;
+using MovieShop.Core.Helper;
 using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +15,13 @@ namespace MovieShop.Infrastructure.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IAsyncRepository<Review> _reviewRepository;
         // DI 3 ways 1. Constructor Injection, 2. Method Injection, 3. Property Injection
-        
-        public MovieService(IMovieRepository movieRepository)
+
+        public MovieService(IMovieRepository movieRepository, IAsyncRepository<Review> reviewRepository)
         {
             _movieRepository = movieRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task<MovieDetailsResponseModel> GetMovieById(int id)
@@ -81,9 +86,21 @@ namespace MovieShop.Infrastructure.Services
             movieDetails.Rating = rating;
             return movieDetails;
         }
-           
-           
-           
+
+        public async Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPagination(int pageSize = 20, int pageIndex = 0, string title = "")
+        {
+            Expression<Func<Movie, bool>> filterExpression = null;
+            if (!string.IsNullOrEmpty(title)) filterExpression = movie => title != null && movie.Title.Contains(title);
+
+            var pagedMovies = await _movieRepository.GetPagedData(pageIndex, pageSize, mov => mov.OrderBy(m => m.Title),
+                filterExpression);
+            //var movies =
+            //  new PagedResultSet<MovieCardResponseModel>(_mapper.Map<List<MovieResponseModel>>(pagedMovies),
+            //      pagedMovies.PageIndex,
+            //      pageSize, pagedMovies.TotalCount);
+            //return movies;
+            return null;
+        }
 
         public async Task<IEnumerable<MovieCardResponseModel>> GetTop25GrossingMovies()
         {
@@ -101,6 +118,28 @@ namespace MovieShop.Infrastructure.Services
                 movieResponseModel.Add(movieCard);
             }
             return movieResponseModel;
+        }
+
+        public async Task<PaginatedList<MovieCardResponseModel>> GetMoviesByGenre(int genreId, int pageSize = 30,
+    int page = 1)
+        {
+            var pagedMovies = await _movieRepository.GetMoviesByGenre(genreId, pageSize, page);
+            //var data = _mapper.Map<PaginatedList<MovieCardResponseModel>>(pagedMovies);
+            //var movies = new PaginatedList<MovieCardResponseModel>(data, pagedMovies.TotalCount, page, pageSize);
+            //return movies;
+            return null;
+        }
+
+        public async Task<List<ReviewResponseModel>> GetReviewsForMovie(int id)
+        {
+            Expression<Func<Review, bool>> filterExpression = review => review.MovieId == id;
+
+            var reviews = await _reviewRepository.GetPagedData(1, 25, rev => rev.OrderByDescending(r => r.Rating),
+                filterExpression, review => review.Movie);
+
+            //var response = _mapper.Map<IEnumerable<ReviewMovieResponseModel>>(reviews);
+            //return response;
+            return null;
         }
     }
 

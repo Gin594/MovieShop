@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MovieShop.Core.Helper;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Infrastructure.Data;
 
@@ -66,6 +67,14 @@ namespace MovieShop.Infrastructure.Repositories
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
+        }
+        public virtual async Task<PaginatedList<T>> GetPagedData(int page = 1, int pageSize = 25,
+           Func<IQueryable<T>, IOrderedQueryable<T>> orderedQuery
+               = null, Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
+        {
+            var pagedList =
+                await PaginatedList<T>.GetPaged(_dbContext.Set<T>(), page, pageSize, orderedQuery, filter, includes);
+            return pagedList;
         }
     }
 }

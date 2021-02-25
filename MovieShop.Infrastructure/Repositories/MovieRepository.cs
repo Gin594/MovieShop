@@ -6,6 +6,7 @@ using MovieShop.Infrastructure.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using MovieShop.Core.Helper;
 
 namespace MovieShop.Infrastructure.Repositories
 {
@@ -30,6 +31,11 @@ namespace MovieShop.Infrastructure.Repositories
         {
             return await _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.Genres)
                 .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public Task<PaginatedList<Movie>> GetMoviesByGenre(int genreId, int pageSize = 25, int page = 1)
+        {
+            throw new NotImplementedException();
         }
     }
 }

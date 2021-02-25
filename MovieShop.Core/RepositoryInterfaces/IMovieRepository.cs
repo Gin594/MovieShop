@@ -1,4 +1,5 @@
 ﻿using MovieShop.Core.Entities;
+using MovieShop.Core.Helper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,9 @@ namespace MovieShop.Core.RepositoryInterfaces
 
         Task<IEnumerable<Movie>> GetTopRatedMovies();
         Task<IEnumerable<Movie>> GetTopRevenueMovies();
+
+        Task<PaginatedList<Movie>> GetMoviesByGenre(int genreId, int pageSize = 25, int page = 1);
+
 
     }
 }
