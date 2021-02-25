@@ -58,9 +58,8 @@ namespace MovieShop.MVC.Controllers
                 new Claim(ClaimTypes.Surname, user.LastName),
                 new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.Value.ToShortDateString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-
             };
-
+            if (user.Roles != null) claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));

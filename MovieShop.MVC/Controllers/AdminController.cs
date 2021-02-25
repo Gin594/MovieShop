@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ namespace MovieShop.MVC.Controllers
 {
     public class AdminController : Controller
     {
+        [Authorize(Roles = "Admin. SuperAdmin")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost("/movie/create")]
         public IActionResult Create(object movie)
         {
             // var movie = insert movie detail into database

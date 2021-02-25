@@ -64,7 +64,7 @@ namespace MovieShop.Infrastructure.Data
             modelBuilder.Entity<Review>(r => {
                 r.ToTable("Review");
                 r.HasKey(r => new {r.MovieId, r.UserId});
-                r.Property(r => r.Rating).HasColumnType("decimal(3, 2)");
+                r.Property(r => r.Rating).HasColumnType("decimal(4, 2)");
             });
             modelBuilder.Entity<MovieCast>(mc => {
                 mc.ToTable("MovieCast");

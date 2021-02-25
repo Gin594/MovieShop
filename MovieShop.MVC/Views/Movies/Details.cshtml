@@ -1,7 +1,7 @@
 ﻿@using System.Globalization
 @using MovieShop.Core.ServiceInterfaces
 @model MovieShop.Core.Models.Response.MovieDetailsResponseModel
-
+@inject ICurrentLogedInUser logedInUser
 <div class="bg-image" style="background-image: url(@Model.BackdropUrl)">
 
     <div class="row justify-content-between justify-content-xl-around">
@@ -57,10 +57,20 @@
 
                 </li>
                 <li class="list-group-item">
-                    <a class="btn btn-outline-light btn-lg btn-block btn-sm" asp-route-id="@Model.Id" asp-controller="User" asp-action="Review">
-                        <i class="far fa-edit mr-1"></i>
-                        REVIEW
-                    </a>
+                    @if (logedInUser.IsAuthenticated)
+                    {
+                        <a class="btn btn-outline-light btn-lg btn-block btn-sm" asp-route-id="@Model.Id" asp-controller="User" asp-action="Review">
+                            <i class="far fa-edit mr-1"></i>
+                            REVIEW
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-light btn-lg btn-block btn-sm" asp-controller="Account" asp-action="Login">
+                            <i class="far fa-edit mr-1"></i>
+                            REVIEW
+                        </a>
+                    }
                 </li>
                 <li class="list-group-item">
                     <button type="button"

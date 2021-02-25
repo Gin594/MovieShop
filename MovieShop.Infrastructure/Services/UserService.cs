@@ -84,6 +84,13 @@ namespace MovieShop.Infrastructure.Services
 
             var hashedPassword = _cryptoService.HashPassword(loginRequestModel.Password, dbUser.Salt);
 
+            List<RoleModel> roleList = new List<RoleModel>();
+            RoleModel roleModel = new RoleModel();
+            foreach (var role in dbUser.Roles)
+            {
+                roleList.Add(new RoleModel { Id = role.Id, Name = role.Name });
+            }
+
             if (hashedPassword == dbUser.HashedPassword)
             {
                 // user has entered correct password
@@ -93,8 +100,8 @@ namespace MovieShop.Infrastructure.Services
                     Email = dbUser.Email,
                     FirstName = dbUser.FirstName,
                     LastName = dbUser.LastName,
-                    DateOfBirth = dbUser.DateOfBirth
-                 
+                    DateOfBirth = dbUser.DateOfBirth,
+                    Roles = roleList
                 };
 
                 return loginResponse;

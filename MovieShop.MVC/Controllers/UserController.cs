@@ -27,10 +27,27 @@ namespace MovieShop.MVC.Controllers
             return View(movie);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Review()
+        [HttpPost]
+        //[Authorization]
+        public async Task<IActionResult> BuyMovie(PurchaseRequestModel purchaseRequestModel)
         {
+            // call userService to save the movie that will call
+            // repository to save in purchase table
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Review(int id)
+        {
+            var movie = await _movieService.GetMovieById(id);
+            ReviewRequestModel reviewRequestModel = new ReviewRequestModel
+            {
+                MovieId = movie.Id,
+                PostUrl = movie.PosterUrl,
+                Title = movie.Title
+            };
+           
+            return View(reviewRequestModel);
         }
 
         [HttpPost]
