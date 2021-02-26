@@ -1,13 +1,13 @@
 ﻿@inject ICurrentLogedInUser logedInUser
 @using MovieShop.Core.ServiceInterfaces
-@model MovieShop.Core.Models.Response.MovieDetailsResponseModel
+@model MovieShop.Core.Models.Request.PurchaseRequestModel
 
 
 <form method="post" asp-controller="User" asp-action="BuyMovie">
     <div class="card mb-3 container shadow ">
         <div class="row justify-content-md-center">
             <div class="col-md-4">
-                <img src="@Model.PosterUrl" alt="@Model.Title" class="card-img-top">
+                <img src="@Model.PostUrl" alt="@Model.Title" class="card-img-top">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -16,6 +16,9 @@
                     <div class="row">
                         <div class="col-md-6 h5">
                             @Model.Title
+                            <input type="hidden" value="@Model.MovieId" name="MovieId"/>
+                            <input type="hidden" value="@logedInUser.UserId" name="UserId"/>
+                            <input type="hidden" value="@Model.Price" name="Price"/>
                         </div>
                         <div class="col-md-6 h5">
                             $@Model.Price

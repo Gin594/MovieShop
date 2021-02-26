@@ -50,5 +50,6 @@ namespace MovieShop.Core.Models.Response
         public decimal? Rating { get; set; }
         public string ReviewText { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public List<ReviewResponseModel> MovieReviews { get; set; }
     }
 }

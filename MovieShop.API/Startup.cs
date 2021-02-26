@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using MovieShop.Infrastructure.Helper;
 
 namespace MovieShop.API
 {
@@ -46,6 +48,7 @@ namespace MovieShop.API
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<IAsyncRepository<Genre>, EfRepository<Genre>>();
             services.AddTransient<IAsyncRepository<Review>, EfRepository<Review>>();
+            services.AddTransient<IAsyncRepository<Purchase>, EfRepository<Purchase>>();
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
@@ -55,6 +58,7 @@ namespace MovieShop.API
             services.AddDbContext<MovieShopDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
 
+            services.AddAutoMapper(typeof(MovieShopMappingProfile));
             services.AddHttpContextAccessor();
         }
 

@@ -13,6 +13,7 @@ namespace MovieShop.Core.ServiceInterfaces
         Task<LoginResponseModel> ValidateUser(LoginRequestModel loginRequestModel);
 
         Task AddMovieReview(ReviewRequestModel reviewRequest);
+        Task PurchaseMovie(PurchaseRequestModel purchaseRequestModel);
 
 
     }

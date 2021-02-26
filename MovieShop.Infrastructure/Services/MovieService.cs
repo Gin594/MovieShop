@@ -1,4 +1,5 @@
-﻿using MovieShop.Core.Entities;
+﻿using AutoMapper;
+using MovieShop.Core.Entities;
 using MovieShop.Core.Helper;
 using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
@@ -9,19 +10,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace MovieShop.Infrastructure.Services
 {
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IAsyncRepository<Review> _reviewRepository;
+        private readonly IMapper _mapper;
+
         // DI 3 ways 1. Constructor Injection, 2. Method Injection, 3. Property Injection
 
-        public MovieService(IMovieRepository movieRepository, IAsyncRepository<Review> reviewRepository)
+        public MovieService(IMovieRepository movieRepository, IAsyncRepository<Review> reviewRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
             _reviewRepository = reviewRepository;
+            _mapper = mapper;
         }
 
         public async Task<MovieDetailsResponseModel> GetMovieById(int id)
@@ -124,10 +127,9 @@ namespace MovieShop.Infrastructure.Services
     int page = 1)
         {
             var pagedMovies = await _movieRepository.GetMoviesByGenre(genreId, pageSize, page);
-            //var data = _mapper.Map<PaginatedList<MovieCardResponseModel>>(pagedMovies);
-            //var movies = new PaginatedList<MovieCardResponseModel>(data, pagedMovies.TotalCount, page, pageSize);
-            //return movies;
-            return null;
+            var data = _mapper.Map<PaginatedList<MovieCardResponseModel>>(pagedMovies);
+            var movies = new PaginatedList<MovieCardResponseModel>(data, pagedMovies.TotalCount, page, pageSize);
+            return movies;
         }
 
         public async Task<List<ReviewResponseModel>> GetReviewsForMovie(int id)
@@ -137,9 +139,8 @@ namespace MovieShop.Infrastructure.Services
             var reviews = await _reviewRepository.GetPagedData(1, 25, rev => rev.OrderByDescending(r => r.Rating),
                 filterExpression, review => review.Movie);
 
-            //var response = _mapper.Map<IEnumerable<ReviewMovieResponseModel>>(reviews);
-            //return response;
-            return null;
+            var response = _mapper.Map<List<ReviewResponseModel>>(reviews);
+            return response;
         }
     }
 

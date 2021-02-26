@@ -11,5 +11,9 @@ namespace MovieShop.Core.Models.Request
         public decimal? TotalPrice { get; set; }
         public DateTime? PurchaseDateTime { get; set; }
         public int MovieId { get; set; }
+        public string PostUrl { get; set; }
+        public decimal? Price { get; set; }
+        public string Title { get; set; }
+
     }
 }

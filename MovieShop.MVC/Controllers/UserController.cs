@@ -24,16 +24,25 @@ namespace MovieShop.MVC.Controllers
             // call userService to save the movie that will call
             // repository to save in purchase table
             var movie = await _movieService.GetMovieById(id);
-            return View(movie);
+            PurchaseRequestModel purchaseRequestModel = new PurchaseRequestModel
+            {
+                MovieId = movie.Id,
+                Price = movie.Price,
+                Title = movie.Title,
+                PostUrl = movie.PosterUrl
+            };
+            return View(purchaseRequestModel);
         }
 
         [HttpPost]
         //[Authorization]
-        public async Task<IActionResult> BuyMovie(PurchaseRequestModel purchaseRequestModel)
+        public async Task<IActionResult> BuyMovie(PurchaseRequestModel purchaseRequestModel, string returnUrl=null)
         {
+            returnUrl ??= Url.Content("~/");
             // call userService to save the movie that will call
             // repository to save in purchase table
-            return View();
+            await _userService.PurchaseMovie(purchaseRequestModel);
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet]

@@ -17,12 +17,16 @@ namespace MovieShop.Infrastructure.Services
         private readonly ICryptoService _cryptoService;
         private readonly ICurrentLogedInUser _currentLogedInUser;
         private readonly IAsyncRepository<Review> _reviewRepository;
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService, ICurrentLogedInUser currentLogedInUser, IAsyncRepository<Review> reviewRepository)
+        private readonly IAsyncRepository<Purchase> _purchaseRepository;
+
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, ICurrentLogedInUser currentLogedInUser, IAsyncRepository<Review> reviewRepository,
+            IAsyncRepository<Purchase> purchaseRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
             _currentLogedInUser = currentLogedInUser;
             _reviewRepository = reviewRepository;
+            _purchaseRepository = purchaseRepository;
 
         }
 
@@ -38,6 +42,32 @@ namespace MovieShop.Infrastructure.Services
                 ReviewText = reviewRequestModel.ReviewText,
             };
             await _reviewRepository.AddAsync(review);
+        }
+
+        public async Task PurchaseMovie(PurchaseRequestModel purchaseRequestModel)
+        {
+            if (_currentLogedInUser.UserId != purchaseRequestModel.UserId)
+            {
+                throw new Exception("You are not Authorized to purchase");
+            }
+            if (_currentLogedInUser.UserId != null)
+            {
+                purchaseRequestModel.UserId = _currentLogedInUser.UserId.Value;
+            }
+
+            bool result = await _purchaseRepository.GetExistsAsync(p =>
+                p.UserId == purchaseRequestModel.UserId && p.MovieId == purchaseRequestModel.MovieId);
+
+            if (result)
+            {
+                throw new Exception("Movie already Purchased");
+            }
+            var purchase = new Purchase {
+                MovieId = purchaseRequestModel.MovieId,
+                UserId = purchaseRequestModel.UserId,
+                TotalPrice = purchaseRequestModel.Price
+            };
+            await _purchaseRepository.AddAsync(purchase);
         }
 
         public async Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
