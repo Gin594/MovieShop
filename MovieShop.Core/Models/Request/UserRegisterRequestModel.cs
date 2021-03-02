@@ -25,7 +25,7 @@ namespace MovieShop.Core.Models.Request
 
         [Required(ErrorMessage ="First Name cannot be empty")]
         [StringLength(50)]
-        public string FirtName { get; set; }
+        public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name cannot be empty")]
         [StringLength(50)]

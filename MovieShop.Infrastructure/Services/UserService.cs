@@ -88,7 +88,7 @@ namespace MovieShop.Infrastructure.Services
                 Email = userRegisterRequestModel.Email,
                 Salt = salt,
                 HashedPassword = hashedPassword,
-                FirstName = userRegisterRequestModel.FirtName,
+                FirstName = userRegisterRequestModel.FirstName,
                 LastName = userRegisterRequestModel.LastName,
                 DateOfBirth = userRegisterRequestModel.DateOfBirth
             };
